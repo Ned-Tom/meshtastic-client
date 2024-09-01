@@ -2,10 +2,23 @@
   "name": "meshtastic-web",
   "version": "2.3.3-0",
   "type": "module",
+  "chromium-args": "--load-extension='./node_modules/nw-vue-devtools-prebuilt/extension'",
+  "main": "http://localhost:5173",
+  "node-remote": "http://localhost:5173",
+  "node-main": "",
+  "window": {
+    "width": 1280,
+    "height": 800,
+    "min_width": 240,
+    "min_height": 320,
+    "icon": "./public/apple-touch-icon.png"
+  },
   "description": "Meshtastic web client",
   "license": "GPL-3.0-only",
   "scripts": {
-    "dev": "vite --host",
+    "start": "concurrently -k pnpm:dev:web pnpm:dev:desktop",
+    "dev:web": "vite --host",
+    "dev:desktop": "wait-on -c waitOnConfig.json http://localhost:5173 && nw .",
     "build": "tsc && pnpm check && vite build ",
     "check": "biome check .",
     "check:fix": "pnpm check --write",
@@ -59,7 +72,8 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "timeago-react": "^3.0.6",
-    "zustand": "4.5.2"
+    "zustand": "4.5.2",
+    "wait-on": "^8.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.2",
@@ -71,6 +85,9 @@
     "@types/w3c-web-serial": "^1.0.6",
     "@types/web-bluetooth": "^0.0.20",
     "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "nw": "^0.91.0",
+    "nw-vue-devtools-prebuilt": "^0.0.10",
     "autoprefixer": "^10.4.19",
     "gzipper": "^7.2.0",
     "postcss": "^8.4.38",
